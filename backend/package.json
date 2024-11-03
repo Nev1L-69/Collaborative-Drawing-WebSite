@@ -1,11 +1,11 @@
 {
-  "name": "backend",
+  "name": "collaborative-drawing-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Biloshchytskyi Yevhenii, Biloshchytskyi Artem",
+  "license": "MIT"
 }
