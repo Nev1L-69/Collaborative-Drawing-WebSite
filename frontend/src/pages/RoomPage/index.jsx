@@ -1,0 +1,81 @@
+import {useState} from "react"
+
+import "./index.css";
+import WhiteBoard from "../../components/Whiteboard";
+
+const RoomPage = () => {
+
+    const [tool, setTool] = useState("pencil");
+    const [color, setColor] = useState("black")
+
+  return (
+    <div className="row">
+        <h1 className="text-center py-4 pt-5">White Board Sharing App {" "}
+            <span className="text-primary">[Users Online : 0]</span>
+        </h1>
+        <div className="col-md-10 mb-3 d-flex mx-auto align-items-center justify-content-center">
+            <div className="d-flex col-md-3 gap-1 justify-content-center me-5">
+                <div className="d-flex gap-1">
+                    <label htmlFor="pencil">Pencil</label>
+                    <input 
+                        type="radio" 
+                        name="tool" 
+                        value="pencil" 
+                        id="pencil" 
+                        checked={tool === "pencil"}
+                        onChange={(e) => setTool(e.target.value) }
+                    />
+                </div>
+                <div className="d-flex gap-1">
+                    <label htmlFor="line">Line</label>
+                    <input 
+                        type="radio" 
+                        name="tool" 
+                        value="line" 
+                        id="line" 
+                        checked={tool === "line"}
+                        onChange={(e) => setTool(e.target.value) }
+                    />
+                </div>
+                <div className="d-flex gap-1">
+                    <label htmlFor="rect">Rectangle</label>
+                    <input 
+                        type="radio" 
+                        name="tool" 
+                        value="rect" 
+                        id="rect" 
+                        checked={tool === "rect"}
+                        onChange={(e) => setTool(e.target.value) }
+                    />
+                </div>
+            </div>
+            <div className="col-md-2 mx-auto ">
+                <div className="d-flex align-items-center justify-content-center">
+                    <label htmlFor="color">Select Color:</label>
+                    <input 
+                        type="color"
+                        id="color"
+                        className="mt-1 ms-3"
+                        value={color} 
+                        onChange={(e) => setColor(e.target.value)}
+                    />
+                </div>
+
+            </div>
+            <div className="col-md-3 d-flex gap-2">
+                <button className="btn btn-primary mt-1">Undo</button>
+                <button className="btn btn-outline-primary mt-1">Redo</button>
+            </div>
+            <div className="col-md-2">
+                <button className="btn btn-danger mt-1">Clear Canvas</button>
+
+            </div>
+        </div>
+
+        <div className="col-md-10 mx-auto mt-4 canvas_box">
+            <WhiteBoard/>
+        </div>
+    </div>
+  )
+}
+export default RoomPage
