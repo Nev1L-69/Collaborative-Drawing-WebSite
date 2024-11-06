@@ -11,15 +11,15 @@ Currently, two official plugins are available:
 ```bash
 yarn install
 ```
-- or
+or
 ```bash
 npm install
 ```
--Then
+- Then
 ```bash
 yarn dev
 ```
-- or
+or
 ```bash
 npm run dev
 ```
