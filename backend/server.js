@@ -7,14 +7,22 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 
-//route
+//routes
 app.get("/", (req, res)=>{
     res.send("This is collaborative drawing website");
 });
 
 io.on("connection", (socket)=>{
-    console.log("User connected")
+    socket.on("userJoined", (data) =>{
+        const {name, userId, roomId, host, presenter} = data;
+        socket.join(roomId);
+        socket.emit("userIsJoined", {success: true})
+    })
+
 })
 
 const port = process.env.PORT || 5000;
-server.listen(port, ()=> console.log("server is running on http://localhost:5000"))
+
+server.listen(port, ()=> 
+    console.log("server is running on http://localhost:5000")
+);

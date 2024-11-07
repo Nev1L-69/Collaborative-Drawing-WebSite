@@ -1,8 +1,12 @@
 import { useState } from "react";
-const CreateRoomForm = ({uuid}) => {
+import {useNavigate} from "react-router-dom"
+
+const CreateRoomForm = ({uuid, socket, setUser}) => {
 
     const [roomId, setRoomId] = useState(uuid());
     const [name, setName] = useState("")
+
+    const navigate = useNavigate();
 
     const handleCreateRoom = (e) => {
         e.preventDefault()
@@ -14,8 +18,10 @@ const CreateRoomForm = ({uuid}) => {
             host: true,
             presenter: true ,
         }
-
-        console.log(roomData);
+        setUser(roomData)
+        navigate(`/${roomId}`)
+        console.log(roomData)
+        socket.emit("userJoined", roomData);
     }
 
     return (
