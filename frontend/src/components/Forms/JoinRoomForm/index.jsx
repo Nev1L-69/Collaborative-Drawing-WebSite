@@ -14,12 +14,11 @@ const JoinRoomForm = ({uuid, socket, setUser}) => {
             name, 
             roomId,
             userId: uuid(),
-            host: true,
-            presenter: true ,
+            host: false,
+            presenter: false ,
         }
         setUser(roomData)
         navigate(`/${roomId}`)
-        console.log(roomData)
         socket.emit("userJoined", roomData);
     }
 

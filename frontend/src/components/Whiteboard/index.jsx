@@ -4,22 +4,41 @@ import rough from 'roughjs';
 const roughGenerator = rough.generator();
 
 
-const WhiteBoard = ({canvasRef, ctxRef, elements, setElements, tool, color, user }) => {
-  if (user?.presenter){
+const WhiteBoard = (
+  {
+    canvasRef, 
+    ctxRef, 
+    elements, 
+    setElements, 
+    tool, 
+    color, 
+    user, 
+    socket }) => {
+
+      const [img, setImg]=useState(null);
+  
+      useEffect(() => {
+        socket.on("whiteBoardDataResponse", (data) => {
+          setImg(data.imgURL)
+        })
+      }, [])
+      
+  if (!user?.presenter){
     return(
       <div 
       className="border border-dark border-3 h-100 w-100 overflow-hidden"
       >
         <img 
-          src="" 
+          src={img}
           alt="real time white board image shared by presenter"
           className="w-100 h-100"
         />
       </div>
     )
   }
-  const [isDrawing, setIsDrawing] = useState(false);
 
+  const [isDrawing, setIsDrawing] = useState(false);
+  
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -34,9 +53,7 @@ const WhiteBoard = ({canvasRef, ctxRef, elements, setElements, tool, color, user
     ctxRef.current = ctx;
   }, []);
 
-  // useEffect(() => {
-
-  // }, [])
+  
 
   useEffect(() => {
     ctxRef.current.strokeStyle = color;
@@ -95,7 +112,11 @@ const WhiteBoard = ({canvasRef, ctxRef, elements, setElements, tool, color, user
         }
       );
     }   
-  })
+  });
+
+  const canvasImage = canvasRef.current.toDataURL()
+  socket.emit("whiteboardData", canvasImage);
+
   }
   }, [elements])
 

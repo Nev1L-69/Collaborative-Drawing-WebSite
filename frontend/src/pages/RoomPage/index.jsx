@@ -3,7 +3,7 @@ import {useState, useRef} from "react"
 import "./index.css";
 import WhiteBoard from "../../components/Whiteboard";
 
-const RoomPage = ({ user }) => {
+const RoomPage = ({ user, socket}) => {
 
 
     const canvasRef = useRef(null)
@@ -105,11 +105,12 @@ const RoomPage = ({ user }) => {
 
             </div>
             <div className="col-md-3 d-flex gap-2">
-                <button className="btn btn-primary mt-1">Undo</button>
-                <button className="btn btn-outline-primary mt-1">Redo</button>
+                
+                <button className="btn btn-primary mt-1 " disabled={elements.length === 0} onClick={() => undo()}>Undo</button>
+                <button className="btn btn-outline-primary mt-1" disabled={history.length < 1} onClick={() => redo()}>Redo</button>
             </div>
             <div className="col-md-2">
-                <button className="btn btn-danger mt-1" on onClick={handleClearCanvas}>Clear Canvas</button>
+                <button className="btn btn-danger mt-1" onClick={handleClearCanvas}>Clear Canvas</button>
 
                     </div>
                 </div>
@@ -126,6 +127,7 @@ const RoomPage = ({ user }) => {
             setElements = {setElements}
             tool={tool}
             user={user}
+            socket={socket}
             
              />
         </div>
