@@ -31,7 +31,11 @@ const WhiteBoard = (
         <img 
           src={img}
           alt="real time white board image shared by presenter"
-          className="w-100 h-100"
+          // className="w-100 h-100"
+          style={{
+            height: window.innerHeight *2,
+            width: "275%"
+          }}
         />
       </div>
     )

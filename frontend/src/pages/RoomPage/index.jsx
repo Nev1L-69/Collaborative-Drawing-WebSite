@@ -3,7 +3,7 @@ import {useState, useRef} from "react"
 import "./index.css";
 import WhiteBoard from "../../components/Whiteboard";
 
-const RoomPage = ({ user, socket}) => {
+const RoomPage = ({ user, socket, users}) => {
 
 
     const canvasRef = useRef(null)
@@ -13,6 +13,7 @@ const RoomPage = ({ user, socket}) => {
     const [color, setColor] = useState("black");
     const [elements, setElements] = useState([]);
     const [history, setHistory] = useState([]);
+    const [openedUserTab, setOpenedUserTab] = useState(false);
 
 
     const handleClearCanvas = () =>{
@@ -50,8 +51,45 @@ const RoomPage = ({ user, socket}) => {
 
   return (
     <div className="row">
+        <button 
+            type="button" 
+            className="btn btn-dark"
+            style={{
+                display: 'block', 
+                position: 'absolute', 
+                top: "5%", 
+                left: "5%",
+                height: '40px',
+                width: '100px',
+            }}
+            onClick={()=>setOpenedUserTab(true)} 
+        >
+            Users
+        </button>
+        {
+            openedUserTab && (
+                <div className="position-fixed top-0 h-100 text-white bg-dark" style = {{width: "250px", left: "0%"}}>
+                    <button 
+                        type="button" 
+                        onClick={()=>setOpenedUserTab(false)} 
+                        className="btn btn-light btn-block w-100 mt-5"
+                    >
+                        Close
+                    </button>
+                    <div className="w-100 mt-5 pt-5">
+                    {
+                        users.map((usr, index)=>(
+                            <p key={index*999} className="my-2 w-100 text-center">
+                                {usr.name} {user && user.userId === usr.userId && "(You)"}
+                            </p>
+                        ))
+                    }
+                    </div>
+                </div>
+            )
+        }
         <h1 className="text-center py-4 pt-5">White Board Sharing App {" "}
-            <span className="text-primary">[Users Online : 0]</span>
+            <span className="text-primary">[Users Online : {users.length}]</span>
         </h1>
         {
             user?.presenter &&(
