@@ -4,8 +4,20 @@ import rough from 'roughjs';
 const roughGenerator = rough.generator();
 
 
-const WhiteBoard = ({canvasRef, ctxRef, elements, setElements, tool, color }) => {
-
+const WhiteBoard = ({canvasRef, ctxRef, elements, setElements, tool, color, user }) => {
+  if (user?.presenter){
+    return(
+      <div 
+      className="border border-dark border-3 h-100 w-100 overflow-hidden"
+      >
+        <img 
+          src="" 
+          alt="real time white board image shared by presenter"
+          className="w-100 h-100"
+        />
+      </div>
+    )
+  }
   const [isDrawing, setIsDrawing] = useState(false);
 
 
@@ -22,12 +34,17 @@ const WhiteBoard = ({canvasRef, ctxRef, elements, setElements, tool, color }) =>
     ctxRef.current = ctx;
   }, []);
 
+  // useEffect(() => {
+
+  // }, [])
+
   useEffect(() => {
     ctxRef.current.strokeStyle = color;
   }, [color]);
 
 
   useLayoutEffect(() => {
+    if (canvasRef) {
     const roughCanvas = rough.canvas(canvasRef.current);
 
     if(elements.length > 0 ){
@@ -79,7 +96,7 @@ const WhiteBoard = ({canvasRef, ctxRef, elements, setElements, tool, color }) =>
       );
     }   
   })
-
+  }
   }, [elements])
 
   const handleMouseDown = (e) =>{
@@ -179,6 +196,8 @@ const WhiteBoard = ({canvasRef, ctxRef, elements, setElements, tool, color }) =>
   const handleMouseUp = (e) =>{
     setIsDrawing(false);
   }
+
+  
 
   return (
     

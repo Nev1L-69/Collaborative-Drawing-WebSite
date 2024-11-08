@@ -58,7 +58,7 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Forms uuid={uuid} socket={socket} setUser={setUser}/>} />
-            <Route path="/:roomId" element={<RoomPage />} />
+            <Route path="/:roomId" element={<RoomPage user={user}/>} />
 
           </Routes>
         </BrowserRouter>
