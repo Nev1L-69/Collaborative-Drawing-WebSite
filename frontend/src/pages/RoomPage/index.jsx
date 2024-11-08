@@ -13,6 +13,20 @@ const RoomPage = () => {
     const [color, setColor] = useState("black");
     const [elements, setElements] = useState([]);
 
+
+    const handleClearCanvas = () =>{
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext("2d");
+        ctx.fillRect = "White";
+        ctxRef.current.clearRect(
+            0,
+            0, 
+            canvasRef.current.width, 
+            canvasRef.current.height
+          );
+          setElements([]);
+    }
+
   return (
     <div className="row">
         <h1 className="text-center py-4 pt-5">White Board Sharing App {" "}
@@ -72,7 +86,7 @@ const RoomPage = () => {
                 <button className="btn btn-outline-primary mt-1">Redo</button>
             </div>
             <div className="col-md-2">
-                <button className="btn btn-danger mt-1">Clear Canvas</button>
+                <button className="btn btn-danger mt-1" on onClick={handleClearCanvas}>Clear Canvas</button>
 
             </div>
         </div>
@@ -82,6 +96,7 @@ const RoomPage = () => {
             canvasRef={canvasRef} 
             ctxRef={ctxRef}
             elements={elements}
+            color = {color}
             setElements = {setElements}
             tool={tool}
             
