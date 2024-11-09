@@ -24,4 +24,4 @@ or
 npm run dev
 ```
 
-[![Видео объяснение](https://img.youtube.com/vi/video_id/maxresdefault.jpg)](https://youtu.be/cgzgEfAikHE)
+[![Видео объяснение](Github-CollaborativeWebSite-capability-video.gif)
