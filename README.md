@@ -126,6 +126,11 @@ elements.forEach((element) => {
   }
 });`
 
+### 5. Flyweight Pattern
+
+1. Flyweight Objects:
+These are the objects that contain shared intrinsic state that can be shared across many instances. For example, properties like color, strokeStyle, or font in a drawing application.
+
 
 ---
 Made by Biloshchytskyi Yevhenii and Biloshchytskyi Artem
