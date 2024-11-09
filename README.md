@@ -64,5 +64,75 @@ The `CreateRoomForm` component uses additional design patterns to handle the cre
    - **Explanation**: The `socket` instance is created once and shared across different components in the app.
    - **Usage**: The Singleton pattern ensures that only one instance of the WebSocket connection (`socket`) exists throughout the app, making it efficient to manage real-time communication.
 
+
+
+## Whiteboard component
+
+## Design Patterns Used
+
+The application implements several design patterns to manage various components, states, and behavior more efficiently. Below are the key design patterns applied in the project:
+
+### 1. **Factory Pattern**
+
+The **Factory Pattern** is used to create objects dynamically without specifying the exact class of object that will be created. In this project, the `rough.generator()` function acts as a factory that generates shapes dynamically for drawing on the canvas. This allows the application to generate various rough shapes like rectangles, lines, and pencil paths.
+
+```javascript
+const roughGenerator = rough.generator(); // Factory Pattern
+The roughGenerator instance is then used to generate rough shapes (rectangles, lines, paths) on the canvas.
+
+2. Observer Pattern
+The Observer Pattern is used to create a subscription mechanism where components "listen" for changes and react when the state or data changes. This pattern is applied in multiple areas in the app:
+
+Listening to server updates: The app listens for updates from the server (such as image URLs or drawing data) and re-renders when new data is received.
+javascript
+Копировать код
+useEffect(() => {
+  socket.on("whiteBoardDataResponse", (data) => {
+    setImg(data.imgURL);
+  });
+}, []);
+Synchronizing drawing data across clients: When the drawing data on one client is updated (i.e., a new shape is drawn), the app sends the new canvas data to the server, which then broadcasts it to all other connected clients.
+javascript
+Копировать код
+socket.emit("whiteboardData", canvasImage); // Observer Pattern
+Reacting to state changes: The elements state holds the drawing elements (shapes, paths). When the elements state is updated, the canvas is re-rendered to reflect the latest drawing.
+javascript
+Копировать код
+useLayoutEffect(() => {
+  if (canvasRef) {
+    // Redraw canvas with updated elements
+  }
+}, [elements]); // Reacts to changes in `elements` state
+3. State Pattern
+The State Pattern is used to manage the state of the drawing operation, such as the color of the brush and whether the user is currently drawing. Changes in these states trigger changes in behavior:
+
+Color state: The drawing tool's stroke color is updated whenever the color state changes.
+javascript
+Копировать код
+useEffect(() => {
+  ctxRef.current.strokeStyle = color; // State Pattern
+}, [color]);
+Drawing state: The isDrawing state tracks whether the user is actively drawing or not. This state change affects how mouse events (mousedown, mousemove, mouseup) are handled.
+javascript
+Копировать код
+const handleMouseUp = () => {
+  setIsDrawing(false); // Transition between drawing and idle state
+};
+4. Strategy Pattern
+The Strategy Pattern allows the selection of different algorithms or behaviors at runtime. In this project, the strategy pattern is used to apply different drawing strategies depending on the selected tool (pencil, line, rect). Each tool has its own drawing method:
+
+javascript
+Копировать код
+elements.forEach((element) => {
+  if (element.type === "rect") {
+    roughCanvas.draw(roughGenerator.rectangle(...)); // Strategy Pattern
+  } else if (element.type === "line") {
+    roughCanvas.draw(roughGenerator.line(...));
+  } else if (element.type === "pencil") {
+    roughCanvas.linearPath(...);
+  }
+});
+
+
 ---
 Made by Biloshchytskyi Yevhenii and Biloshchytskyi Artem
