@@ -76,7 +76,6 @@ The application implements several design patterns to manage various components,
 
 The **Factory Pattern** is used to create objects dynamically without specifying the exact class of object that will be created. In this project, the `rough.generator()` function acts as a factory that generates shapes dynamically for drawing on the canvas. This allows the application to generate various rough shapes like rectangles, lines, and pencil paths.
 
-```javascript
 const roughGenerator = rough.generator(); // Factory Pattern
 The roughGenerator instance is then used to generate rough shapes (rectangles, lines, paths) on the canvas.
 
