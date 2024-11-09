@@ -97,7 +97,8 @@ useLayoutEffect(() => {
   if (canvasRef) {
     // Redraw canvas with updated elements
   }
-}, [elements]); `// Reacts to changes in `elements` state
+}, [elements]);
+`// Reacts to changes in `elements` state
 ### 3. State Pattern
 The State Pattern is used to manage the state of the drawing operation, such as the color of the brush and whether the user is currently drawing. Changes in these states trigger changes in behavior:
 
@@ -105,9 +106,10 @@ Color state: The drawing tool's stroke color is updated whenever the color state
 `useEffect(() => {
   ctxRef.current.strokeStyle = color; // State Pattern
 }, [color]);`
+
 Drawing state: The isDrawing state tracks whether the user is actively drawing or not. This state change affects how mouse events (mousedown, mousemove, mouseup) are handled.
-`
-const handleMouseUp = () => {
+
+`const handleMouseUp = () => {
   setIsDrawing(false); // Transition between drawing and idle state
 };`
 ### 4. Strategy Pattern
