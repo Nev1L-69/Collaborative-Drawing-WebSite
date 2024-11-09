@@ -24,4 +24,4 @@ or
 npm run dev
 ```
 
-[Explanation](https://youtu.be/cgzgEfAikHE)
+[![Видео объяснение](https://img.youtube.com/vi/video_id/maxresdefault.jpg)](https://youtu.be/cgzgEfAikHE)
