@@ -25,3 +25,5 @@ npm run dev
 ```
 
 [![Видео объяснение](Github-CollaborativeWebSite-capability-video.gif)
+
+[Explanation video on youtube without voice](https://youtu.be/cgzgEfAikHE)
