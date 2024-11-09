@@ -24,4 +24,4 @@ or
 npm run dev
 ```
 
-(https://github.com/Nev1L-69/Collaborative-Drawing-WebSite/blob/main/Releases/Github%20CollaborativeWebSite%20capability%20video.mp4)
+[Explanation](https://youtu.be/cgzgEfAikHE)
