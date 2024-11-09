@@ -1,8 +1,7 @@
 import {useEffect, useState, useLayoutEffect} from "react";
 import rough from 'roughjs';
 
-const roughGenerator = rough.generator();
-
+const roughGenerator = rough.generator(); // Factory Pattern: `rough.generator()` acts as a factory for generating RoughJS shapes.
 
 const WhiteBoard = (
   {
@@ -17,11 +16,12 @@ const WhiteBoard = (
 
       const [img, setImg]=useState(null);
   
+      // Observer Pattern: useEffect establishes a "listener" for "whiteBoardDataResponse" event from the socket.
       useEffect(() => {
         socket.on("whiteBoardDataResponse", (data) => {
-          setImg(data.imgURL)
-        })
-      }, [])
+          setImg(data.imgURL);
+        });
+      }, []);
       
   if (!user?.presenter){
     return(
@@ -31,19 +31,17 @@ const WhiteBoard = (
         <img 
           src={img}
           alt="real time white board image shared by presenter"
-          // className="w-100 h-100"
           style={{
             height: window.innerHeight *2,
             width: "275%"
           }}
         />
       </div>
-    )
+    );
   }
 
   const [isDrawing, setIsDrawing] = useState(false);
   
-
   useEffect(() => {
     const canvas = canvasRef.current;
     canvas.height = window.innerHeight * 2;
@@ -56,14 +54,13 @@ const WhiteBoard = (
 
     ctxRef.current = ctx;
   }, []);
-
   
-
+  // State Pattern: Changes the `strokeStyle` of `ctxRef` whenever `color` state changes.
   useEffect(() => {
     ctxRef.current.strokeStyle = color;
   }, [color]);
 
-
+  // Observer Pattern: The `elements` state change triggers re-rendering of drawn elements on canvas.
   useLayoutEffect(() => {
     if (canvasRef) {
     const roughCanvas = rough.canvas(canvasRef.current);
@@ -77,6 +74,7 @@ const WhiteBoard = (
       );
     }
 
+    // Strategy Pattern: A different drawing strategy is applied based on the element type.
     elements.forEach((element) =>{
       if(element.type === "rect"){
         roughCanvas.draw(
@@ -91,7 +89,7 @@ const WhiteBoard = (
               roughness: 0
             }
           )
-        )
+        );
       }else if (element.type === "line"){
         roughCanvas.draw(
         roughGenerator.line(
@@ -104,7 +102,7 @@ const WhiteBoard = (
             strokeWidth:  5,
             roughness: 0
           }
-        ))
+        ));
       } 
       else if(element.type === "pencil") {
       roughCanvas.linearPath(
@@ -118,11 +116,11 @@ const WhiteBoard = (
     }   
   });
 
-  const canvasImage = canvasRef.current.toDataURL()
-  socket.emit("whiteboardData", canvasImage);
+  const canvasImage = canvasRef.current.toDataURL();
+  socket.emit("whiteboardData", canvasImage); // Observer Pattern: Emits `whiteboardData` updates to synchronize with other clients.
 
   }
-  }, [elements])
+  }, [elements]);
 
   const handleMouseDown = (e) =>{
     const {offsetX, offsetY} = e.nativeEvent;
@@ -137,7 +135,7 @@ const WhiteBoard = (
         path: [[offsetX, offsetY]],
         stroke: color,
       },
-    ] );
+    ]);
   } else if (tool ==="line"){
     setElements((prevElements) =>[
       ...prevElements,
@@ -149,8 +147,7 @@ const WhiteBoard = (
         height: offsetY,
         stroke: color,
       }
-
-    ])
+    ]);
   } else if (tool === "rect"){
     setElements((prevElements) => [
       ...prevElements,{
@@ -162,11 +159,11 @@ const WhiteBoard = (
         stroke: color,
       },
     ]);
-
   }
 
     setIsDrawing(true);
-  }
+  };
+  
   const handleMouseMove = (e) =>{
     const {offsetX, offsetY} = e.nativeEvent;
 
@@ -181,12 +178,12 @@ const WhiteBoard = (
           return{
             ...ele,
             path: newPath
-          }
+          };
         } else {
           return ele;
         }
       })
-    )
+    );
   } else if (tool === "line"){
     setElements((prevElements) => 
       prevElements.map((ele, index) => {
@@ -195,12 +192,12 @@ const WhiteBoard = (
             ...ele,
             width: offsetX,
             height:offsetY
-          }
+          };
         } else {
           return ele;
         }
       })
-    )
+    );
   } else if(tool === "rect"){
     setElements((prevElements) => 
       prevElements.map((ele, index) => {
@@ -209,20 +206,18 @@ const WhiteBoard = (
             ...ele,
             width: offsetX - ele.offsetX,
             height:offsetY - ele.offsetY,
-          }
+          };
         } else {
           return ele;
         }
       })
-    )
+    );
   }
 }
-  }
+  };
   const handleMouseUp = (e) =>{
-    setIsDrawing(false);
-  }
-
-  
+    setIsDrawing(false); // State Pattern: The state transition from drawing to non-drawing is handled here.
+  };
 
   return (
     
@@ -234,6 +229,6 @@ const WhiteBoard = (
     >
     <canvas ref={canvasRef} />
     </div>
-  )
+  );
 }
 export default WhiteBoard;
